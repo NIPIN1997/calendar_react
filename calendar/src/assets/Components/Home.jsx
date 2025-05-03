@@ -80,6 +80,7 @@ export function Home() {
     setDate(new Date(year, month, 1));
     setNumberOfDays(new Date(year, month + 1, 0).getDate());
   }, [month, year]);
+  const today = new Date();
   return (
     <div className={styles.body}>
       <h1 className={styles.heading}>Calendar</h1>
@@ -146,11 +147,25 @@ export function Home() {
         {Array.from({ length: date.getDay() }).map((_, i) => (
           <div key={i} className={styles.calendarDay}></div>
         ))}
-        {Array.from({ length: numberOfDays }).map((_, i) => (
-          <div key={i} className={styles.calendarDay}>
-            {i + 1}
-          </div>
-        ))}
+        {Array.from({ length: numberOfDays }).map((_, i) => {
+          const flag =
+            year == today.getFullYear() &&
+            month == today.getMonth() &&
+            i + 1 == today.getDate();
+          return flag ? (
+            <div
+              key={i}
+              className={styles.calendarDay}
+              style={{ backgroundColor: "rgb(94, 210, 216)", color: "black" }}
+            >
+              {i + 1}
+            </div>
+          ) : (
+            <div key={i} className={styles.calendarDay}>
+              {i + 1}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
